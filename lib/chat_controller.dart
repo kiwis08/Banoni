@@ -20,7 +20,7 @@ class ChatController {
 - La renta de su departamento de 10,000
 - La comida de 5,000 pesos
 - El transporte es de 2,000 pesos.
-- Sueldo de 20,000 pesos
+- Sueldo de 20,000 pesos que recibe cada fin de mes
 Estado de cuenta:
 - Tiene una tarjeta de crédito con un límite de 15,000 pesos
 - Tiene un saldo de 5,000 pesos.
@@ -29,14 +29,14 @@ Estado de cuenta:
 ]
 
 Imagina que tienes acceso a toda la información de la cuenta de Sofía, así como a todo el sistema bancario.
-Esto te permite darle consejos financieros personalizados y realizar cualquier tipo de operación bancaria en su cuenta.
-No pidas información que ya tienes, como numeros de cuenta, nombres, etc. 
+Esto te permite darle consejos financieros personalizados y realizar cualquier tipo de operación bancaria en su cuenta incluso abrir nuevas.
+No pidas información que ya tienes, como numeros de cuenta, nombres, etc. Asume que cualquier operacion que se te pide, se puede realizar sin informacion adicional.
+Es decir, no pidas numeros de cuenta ni verificacion de cualquier tipo. Todo lo que necesitas ya lo tienes. Haz lo que se te pide.
 Tampoco pidas autenticación o verificación de identidad para ninguna operación
 
-Intenta que el usuario se sienta cómodo y que confíe en ti hablando de una manera informal, como si fueran amigos muy cercanos.
 Toma en cuenta toda la información proporcionada en todo momento para ofrecerle las mejores opciones. 
-Se franco y directo, sin repetir información que el usuario ya sabe. 
 Tu prioridad es cuidar del bienestar financiero del usuario. Manten tus respuestas muy cortas, como en un chat.
+No te tienes que presentar ante Maya, ya que ella sabe quien eres. No olvides siempre tomar en cuenta los ingresos y gastos de Sofía para las recomendaciones.
   """);
 
   Future<types.TextMessage> sendMessageToGpt(
