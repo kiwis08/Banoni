@@ -26,7 +26,7 @@ class _ChatPageState extends State<ChatPage> {
   List<types.Message> _messages = [];
   final _user = const types.User(
     id: 'user',
-    firstName: "Sofia"
+    firstName: "Sofia",
   );
 
   @override
@@ -106,6 +106,7 @@ class _ChatPageState extends State<ChatPage> {
       createdAt: DateTime.now().millisecondsSinceEpoch,
       id: const Uuid().v4(),
       text: message.text,
+      status: types.Status.seen,
     );
 
     _addMessage(textMessage);
@@ -116,16 +117,50 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    body: Chat(
-      messages: _messages,
-      onMessageTap: _handleMessageTap,
-      onPreviewDataFetched: _handlePreviewDataFetched,
-      onSendPressed: _handleSendPressed,
-      showUserAvatars: true,
-      showUserNames: true,
-      user: _user,
-      theme: DefaultChatTheme(
-        primaryColor: Colors.red,
+    appBar: AppBar(
+      backgroundColor: Colors.white,
+      title: const Text('Maya', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+      elevation: 1,
+      actions: [
+        //Circle image
+        Container(
+          margin: const EdgeInsets.only(right: 10),
+          clipBehavior: Clip.hardEdge,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                blurRadius: 5,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: Image.asset('assets/banorte.png', width: 40, height: 40,)
+        ),
+      ],
+    ),
+    body: SafeArea(
+      bottom: false,
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Chat(
+          l10n: const ChatL10nEs(
+            inputPlaceholder: 'Escribe un mensaje...',
+          ),
+          messages: _messages,
+          onMessageTap: _handleMessageTap,
+          onPreviewDataFetched: _handlePreviewDataFetched,
+          onSendPressed: _handleSendPressed,
+          showUserAvatars: true,
+          showUserNames: true,
+          user: _user,
+          theme: const DefaultChatTheme(
+            primaryColor: Color(0xffEB0029),
+            inputTextCursorColor: Color(0xffEB0029),
+          ),
+        ),
       ),
     ),
   );
