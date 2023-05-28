@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:http/http.dart' as http;
@@ -26,8 +24,10 @@ class _ChatPageState extends State<ChatPage> {
   List<types.Message> _messages = [];
   final _user = const types.User(
     id: 'user',
-    firstName: "Sofia",
+    firstName: "Sofía",
   );
+
+  List<types.User> _typingUsers = [];
 
   @override
   void initState() {
@@ -111,57 +111,71 @@ class _ChatPageState extends State<ChatPage> {
 
     _addMessage(textMessage);
 
+    _typingUsers = [types.User(
+      id: 'assistant',
+      firstName: "Maya",
+      imageUrl: "https://play-lh.googleusercontent.com/enBpwPAcYSd_Qh2gK6Z0RjumWtkZeYnJ1aNwqpktYkJOhNGmWdIwvFFdiVfWSRB2DAQ",
+    )];
     final gptResponse = await controller.sendMessageToGpt(_messages);
+    _typingUsers = [];
     _addMessage(gptResponse);
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      backgroundColor: Colors.white,
-      title: const Text('Maya', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
-      elevation: 1,
-      actions: [
-        //Circle image
-        Container(
-          margin: const EdgeInsets.only(right: 10),
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                blurRadius: 5,
-                offset: const Offset(0, 3),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: const Text('Maya', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),),
+        elevation: 1,
+        actions: [
+          //Circle image
+          Container(
+              margin: const EdgeInsets.only(right: 10),
+              clipBehavior: Clip.hardEdge,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
               ),
-            ],
+              child: Image.asset('assets/banorte.png', width: 40, height: 40,)
           ),
-          child: Image.asset('assets/banorte.png', width: 40, height: 40,)
-        ),
-      ],
-    ),
-    body: SafeArea(
-      bottom: false,
-      child: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Chat(
-          l10n: const ChatL10nEs(
-            inputPlaceholder: 'Escribe un mensaje...',
-          ),
-          messages: _messages,
-          onMessageTap: _handleMessageTap,
-          onPreviewDataFetched: _handlePreviewDataFetched,
-          onSendPressed: _handleSendPressed,
-          showUserAvatars: true,
-          showUserNames: true,
-          user: _user,
-          theme: const DefaultChatTheme(
-            primaryColor: Color(0xffEB0029),
-            inputTextCursorColor: Color(0xffEB0029),
+        ],
+      ),
+      body: SafeArea(
+        bottom: false,
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Chat(
+            l10n: const ChatL10nEs(
+              inputPlaceholder: 'Escribe un mensaje...',
+            ),
+            messages: _messages,
+            onMessageTap: _handleMessageTap,
+            onPreviewDataFetched: _handlePreviewDataFetched,
+            onSendPressed: _handleSendPressed,
+            showUserAvatars: true,
+            showUserNames: true,
+            user: _user,
+            typingIndicatorOptions: TypingIndicatorOptions(
+              typingUsers: _typingUsers,
+            ),
+            theme: const DefaultChatTheme(
+              primaryColor: Color(0xffEB0029),
+              inputTextCursorColor: Color(0xffEB0029),
+              userAvatarNameColors: [
+                Color(0xffEB0029),
+              ],
+            ),
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
